@@ -1,0 +1,38 @@
+// Prisma schema for Eco-Genius v2.0
+// Persistent analysis history + achievements tracking via anonymous session cookie
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Anonymous browser session (cookie-based, no login required)
+model Session {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  analyses  Analysis[]
+}
+
+model Analysis {
+  id           String   @id @default(cuid())
+  sessionId    String
+  session      Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  location     String
+  state        String?
+  city         String?
+  town         String?
+  dailyHours   Float
+  habits       String
+  appliancesJson String // JSON string of selected appliances
+  carbonKg     Float
+  treesNeeded  Int
+  annualSavings String
+  grade        String
+  createdAt    DateTime @default(now())
+
+  @@index([sessionId])
+}

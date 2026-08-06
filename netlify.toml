@@ -1,0 +1,21 @@
+# Netlify deployment config for Eco-Genius
+# Next.js 16 with App Router — the @netlify/plugin-nextjs plugin is detected
+# automatically when a Next.js project is deployed. No extra config needed.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# The DATABASE_URL is OPTIONAL on Netlify. The app gracefully degrades to
+# cookie-only sessions + localStorage achievements when the SQLite DB is
+# unavailable (Netlify's serverless filesystem is ephemeral).
+#
+# To ENABLE persistent analysis history on Netlify, set DATABASE_URL to a
+# PostgreSQL connection string (Neon, Supabase, etc.) AND change the
+# provider in prisma/schema.prisma from "sqlite" to "postgresql".
+#
+# DATABASE_URL = "postgresql://user:pass@host/db"

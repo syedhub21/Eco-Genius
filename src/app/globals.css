@@ -1,0 +1,400 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Aurora eco palette */
+  --color-aurora-cyan: #22d3ee;
+  --color-aurora-emerald: #34d399;
+  --color-aurora-violet: #a78bfa;
+  --color-aurora-blue: #38bdf8;
+  --color-aurora-deep: #050510;
+}
+
+:root {
+  --radius: 0.75rem;
+  /* Aurora eco dark theme is the default — this is a dark-first product */
+  --background: oklch(0.13 0.02 250);
+  --foreground: oklch(0.96 0.01 220);
+  --card: oklch(0.18 0.025 255 / 0.6);
+  --card-foreground: oklch(0.96 0.01 220);
+  --popover: oklch(0.16 0.025 255);
+  --popover-foreground: oklch(0.96 0.01 220);
+  --primary: oklch(0.78 0.15 195);
+  --primary-foreground: oklch(0.13 0.02 250);
+  --secondary: oklch(0.25 0.03 255);
+  --secondary-foreground: oklch(0.96 0.01 220);
+  --muted: oklch(0.22 0.02 255);
+  --muted-foreground: oklch(0.68 0.02 230);
+  --accent: oklch(0.7 0.18 165);
+  --accent-foreground: oklch(0.13 0.02 250);
+  --destructive: oklch(0.65 0.22 25);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.78 0.15 195);
+  --chart-1: oklch(0.78 0.15 195); /* cyan */
+  --chart-2: oklch(0.72 0.17 165); /* emerald */
+  --chart-3: oklch(0.7 0.18 280); /* violet */
+  --chart-4: oklch(0.78 0.18 90); /* yellow-green */
+  --chart-5: oklch(0.68 0.2 30); /* orange */
+  --sidebar: oklch(0.16 0.025 255);
+  --sidebar-foreground: oklch(0.96 0.01 220);
+  --sidebar-primary: oklch(0.78 0.15 195);
+  --sidebar-primary-foreground: oklch(0.13 0.02 250);
+  --sidebar-accent: oklch(0.25 0.03 255);
+  --sidebar-accent-foreground: oklch(0.96 0.01 220);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.78 0.15 195);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-foreground;
+    /* Body background must be TRANSPARENT so the fixed WebGL lens canvas
+       (z-index -20) is visible. An opaque body bg paints over it. */
+    background-color: transparent !important;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    overflow-x: hidden;
+  }
+  html {
+    background-color: transparent !important;
+  }
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(5, 5, 16, 0.5);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.4), rgba(167, 139, 250, 0.4));
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.7), rgba(167, 139, 250, 0.7));
+  }
+  ::selection {
+    background: rgba(34, 211, 238, 0.3);
+    color: white;
+  }
+}
+
+/* ============ Aurora Eco Component Utilities ============ */
+
+@layer components {
+  /* Glassmorphism card */
+  .glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.35s, box-shadow 0.35s;
+    position: relative;
+  }
+  .glass-card:hover {
+    border-color: rgba(34, 211, 238, 0.35);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(34, 211, 238, 0.1);
+  }
+
+  /* Glass card with animated iridescent border */
+  .glass-card-iridescent {
+    position: relative;
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+  .glass-card-iridescent::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--angle, 0deg),
+      rgba(34, 211, 238, 0.6),
+      rgba(52, 211, 153, 0.4),
+      rgba(167, 139, 250, 0.6),
+      rgba(56, 189, 248, 0.4),
+      rgba(34, 211, 238, 0.6)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: iridescent-spin 6s linear infinite;
+    pointer-events: none;
+  }
+
+  /* Glass button */
+  .glass-btn {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .glass-btn:hover {
+    background: rgba(34, 211, 238, 0.12);
+    border-color: rgba(34, 211, 238, 0.5);
+    box-shadow: 0 0 24px rgba(34, 211, 238, 0.25);
+    transform: translateY(-1px);
+  }
+  .glass-btn:active {
+    transform: translateY(0);
+  }
+  .glass-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Primary aurora button */
+  .aurora-btn {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(34, 211, 238, 0.9), rgba(52, 211, 153, 0.9));
+    border: 1px solid rgba(34, 211, 238, 0.5);
+    color: #050510;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(34, 211, 238, 0.3);
+  }
+  .aurora-btn:hover {
+    box-shadow: 0 6px 30px rgba(34, 211, 238, 0.5);
+    transform: translateY(-2px);
+  }
+  .aurora-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+  }
+  .aurora-btn:hover::after {
+    left: 100%;
+  }
+
+  /* Animated gradient text */
+  .gradient-text {
+    background: linear-gradient(
+      90deg,
+      #22d3ee 0%,
+      #34d399 25%,
+      #a78bfa 50%,
+      #38bdf8 75%,
+      #22d3ee 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-sweep 6s linear infinite;
+  }
+
+  /* Eyebrow pill badge */
+  .eyebrow-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    color: #67e8f9;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Form inputs */
+  .eco-input {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    color: white;
+    border-radius: 0.75rem;
+    transition: all 0.3s;
+  }
+  .eco-input:focus {
+    outline: none;
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+  }
+  .eco-input::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+  }
+
+  /* Section heading kicker */
+  .section-kicker {
+    color: #22d3ee;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+  }
+}
+
+/* ============ Aurora Keyframes ============ */
+
+@layer utilities {
+  @keyframes iridescent-spin {
+    to {
+      --angle: 360deg;
+    }
+  }
+  @property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  @keyframes gradient-sweep {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes float-up {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .animate-float {
+    animation: float-up 6s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.3), 0 0 40px rgba(34, 211, 238, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(34, 211, 238, 0.5), 0 0 60px rgba(34, 211, 238, 0.2);
+    }
+  }
+  .animate-glow {
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Scroll reveal — set on elements, toggled by IntersectionObserver */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Leaflet map — EXACT match to Eco-Genius1.py: CARTO dark_all tiles, no filter */
+  .leaflet-container {
+    background: #0a0f1c !important;
+    font-family: inherit !important;
+  }
+  .leaflet-tile {
+    /* No CSS filter — Eco-Genius1.py uses the dark_all tiles as-is */
+  }
+  .leaflet-control-attribution {
+    background: rgba(10, 15, 28, 0.7) !important;
+    color: rgba(148, 163, 184, 0.6) !important;
+    font-size: 9px !important;
+  }
+  .leaflet-control-attribution a {
+    color: rgba(34, 211, 238, 0.7) !important;
+  }
+  .leaflet-popup-content-wrapper {
+    background: rgba(15, 23, 42, 0.95) !important;
+    color: white !important;
+    border: 1px solid rgba(34, 211, 238, 0.3) !important;
+    border-radius: 12px !important;
+  }
+  .leaflet-popup-tip {
+    background: rgba(15, 23, 42, 0.95) !important;
+  }
+
+  /* Pulsing map marker */
+  .pulse-marker {
+    position: relative;
+  }
+  .pulse-marker::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    animation: pulse-ring 2s ease-out infinite;
+  }
+}
