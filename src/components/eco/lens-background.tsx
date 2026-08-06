@@ -338,7 +338,7 @@ export function LensBackground() {
         button, a, select, input, textarea, label, [role="button"],
         [role="option"], [role="combobox"], [role="slider"],
         .eco-globe-stage, .eco-globe-stage canvas,
-        .leaflet-container, .leaflet-interactive,
+        
         [data-radix-collection-item] {
           cursor: pointer !important;
         }
